@@ -19,10 +19,10 @@ class DayTenTest {
             "addx -11,ADD,-11",
             "noop,NOOP,"
     })
-    void should_parse_command_correctly(String input, DayTen.Operation operation, Integer parameter) {
-        DayTen.Cpu cpu = new DayTen.Cpu();
+    void should_parse_command_correctly(String input, Operation operation, Integer parameter) {
+        Cpu cpu = new SignalStrengthCpu();
 
-        DayTen.Command command = cpu.parseCommand(input);
+        Command command = cpu.parseCommand(input);
 
         assertThat(command.operation()).isEqualTo(operation);
         assertThat(command.parameter()).isEqualTo(parameter);
@@ -35,11 +35,10 @@ class DayTenTest {
             "noop, 1, 2"
     })
     void should_execute_command_correctly(String input, int expectedRegisterX, int expectedCycle) {
-        DayTen.Cpu cpu = new DayTen.Cpu();
-        DayTen.Command command = cpu.parseCommand(input);
+        Cpu cpu = new SignalStrengthCpu();
+        Command command = cpu.parseCommand(input);
 
-        cpu.execute(command, () -> {
-        });
+        cpu.execute(command);
 
         assertThat(cpu.getRegisterX()).isEqualTo(expectedRegisterX);
         assertThat(cpu.getCycle()).isEqualTo(expectedCycle);
@@ -48,9 +47,9 @@ class DayTenTest {
     @Test
     void should_calculate_signal_strength_correctly() throws FileNotFoundException {
         List<String> input = FileUtil.readToList("day_10_test_input.txt");
-        DayTen.Cpu cpu = new DayTen.Cpu();
+        SignalStrengthCpu signalStrengthCpu = new SignalStrengthCpu();
 
-        assertThat(cpu.calculateSignalStrength(input)).isEqualTo(13140);
+        assertThat(signalStrengthCpu.calculateSignalStrength(input)).isEqualTo(13140);
     }
 
     @Test
@@ -59,7 +58,7 @@ class DayTenTest {
         for (int i = 0; i < 240; i++) {
             input.add("noop");
         }
-        DayTen.Cpu cpu = new DayTen.Cpu();
+        ImageRendererCpu cpu = new ImageRendererCpu();
 
         assertThat(cpu.renderImage(input)).isEqualTo(
                 """
@@ -75,7 +74,7 @@ class DayTenTest {
     @Test
     void should_draw_test_input_correctly() throws FileNotFoundException {
         List<String> input = FileUtil.readToList("day_10_test_input.txt");
-        DayTen.Cpu cpu = new DayTen.Cpu();
+        ImageRendererCpu cpu = new ImageRendererCpu();
 
         assertThat(cpu.renderImage(input)).isEqualTo(
                 """
